@@ -12,7 +12,7 @@
       bordered
     >
       <a href="https://mypikpak.com/" target="_blank" class="logo-box">
-        <img src="https://www.mypikpak.com/logo.png" class="logo-box__icon" alt="">
+        <img src="https://mypikpak.com/apple-touch-icon.png" class="logo-box__icon" alt="">
         <div class="logo-box__text">PikPak</div>
       </a>
       <n-menu :options="menuOptions" :value="String(route.name)" @update:value="goRoute"></n-menu>
@@ -28,11 +28,11 @@
           processing>
         </n-progress>
         <p style="margin-bottom: 0;">
-          <n-tooltip placement="right">
+          <n-tooltip :width="600" placement="right">
               <template #trigger>
-                <a style="color: #306eff;" target="_blank" href="https://k.youshop10.com/JGDtoxg6">￥119购买体验会员VIP年卡</a>
+                <a style="color: #306eff;" target="_blank" href="https://k.youshop10.com/JGDtoxg6">2021年12月23日~2021年12月31日￥119购体验会员VIP年卡</a>
               </template>
-              【0.33元/天】PikPak体验会员VIP年卡-可与7天免费会员码叠加-每人只能购买使用一次，官方代理商分销，感谢支持
+              2021年12月23日~2021年12月31日 【1年PikPak体验会员仅售：119元！原价450元】 2022年1月1日起： 1年PikPak体验会员仅售：169元！原价450元】 -每人只能购买使用一次，官方代理商分销，感谢支持
           </n-tooltip>
         </p>
       </div>
@@ -90,7 +90,7 @@
 import { ref } from '@vue/reactivity';
 import { h, onMounted, watch } from '@vue/runtime-core';
 import { NLayout, NLayoutSider, NLayoutContent, NMenu, MenuOption, NIcon, NProgress, NText, NModal, NCard, NInput, NButton, NScrollbar, NTime, NTooltip, useDialog } from 'naive-ui'
-import { File, Trash, CircleX, Logout, Settings, Share, Video, Camera } from '@vicons/tabler'
+import { File, Trash, CircleX, Logout, Settings, Copy, Share, Video, Camera } from '@vicons/tabler'
 import http from '../../utils/axios'
 import { byteConvert } from '../../utils'
 import { useRoute, useRouter } from 'vue-router'
@@ -121,11 +121,16 @@ import { useRoute, useRouter } from 'vue-router'
       key: 'trash',
       icon: renderIcon(Trash)
     },
-    // {
-    //   label: '资源库',
-    //   key: 'share',
-    //   icon: renderIcon(Share)
-    // },
+    {
+      label: '邀请',
+      key: 'invited',
+      icon: renderIcon(Copy)
+    },
+    {
+      label: '资源库',
+      key: 'share',
+      icon: renderIcon(Share)
+    },
     {
       label: '设置',
       key: 'setting',
@@ -172,8 +177,9 @@ import { useRoute, useRouter } from 'vue-router'
   const code = ref()
   const showCode = ref(false)
   const postCode = () => {
-    http.post('https://api-drive.mypikpak.com/vip/v1/order/free', {
-      activation_code: code.value
+    http.post('https://api-drive.mypikpak.com/vip/v1/order/activation-code', {
+      activation_code: code.value,
+      data: {}
     })
       .then(res => {
         window.$message.success('兑换成功')
